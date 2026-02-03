@@ -7,6 +7,7 @@ const toggleLink = document.getElementById('toggle-link');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirm-password');
+const messageBox = document.getElementById('message-box');
 
 function toggleAuth() {
   const isLoginForm = formTitle.textContent === 'Welcome Back!';
@@ -24,28 +25,40 @@ function login(username, password) {
   );
 
   if (user) {
-    alert('Successful login!');
+    messageBox.textContent = `Success! Welcome back, ${username}.`;
+    messageBox.style.color = "#c37cf0";
   } else {
-    alert('User not found. Please sign up first.');
+    messageBox.textContent = "User not found. Please sign up first.";
+    messageBox.style.color = "#ff4d4d";
   }
 }
 
 function signUp(username, password, confirmPassword) {
   if (password !== confirmPassword) {
-    alert('Passwords do not match.');
+    messageBox.textContent = "Passwords do not match.";
+    messageBox.style.color = "#ff4d4d";
   } else {
     users.push({ username: username, password: password });
-    alert('Sign up successful! You can now log in.');
+    messageBox.textContent = "Sign up successful! You can now log in.";
+    messageBox.style.color = "#c37cf0";
+
+    usernameInput.value = '';
+    passwordInput.value = '';
+    confirmPasswordInput.value = '';
+    
     toggleAuth();
   }
 }
 
-function handleSubmit() {
+function handleSubmit(e) {
+  e.preventDefault();
   const isLoginForm = formTitle.textContent === 'Welcome Back!';
   const username = usernameInput.value;
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
+  messageBox.textContent = "";
+  
   if (isLoginForm) {
     login(username, password);
   } else {
